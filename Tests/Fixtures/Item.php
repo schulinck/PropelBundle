@@ -14,6 +14,9 @@ namespace Propel\Bundle\PropelBundle\Tests\Fixtures;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Connection\ConnectionInterface;
 
+/**
+ * @method array toArray(string $keyType = \Propel\Runtime\Map\TableMap::TYPE_FIELDNAME, bool $includeLazyLoadColumns = true, array $alreadyDumpedObjects = [], bool $includeForeignObjects = false)
+ */
 class Item implements ActiveRecordInterface
 {
     private $id;
@@ -104,6 +107,14 @@ class Item implements ActiveRecordInterface
     }
 
     public function save(ConnectionInterface $con = null)
+    {
+    }
+
+    public function isPrimaryKeyNull(): bool
+    {
+    }
+
+    public function __call($name, $arguments)
     {
     }
 }

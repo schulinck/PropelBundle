@@ -19,7 +19,7 @@ class CollectionToArrayTransformerTest extends TestCase
 {
     private $transformer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists('Symfony\Component\Form\Form')) {
             $this->markTestSkipped('The "Form" component is not available');
@@ -28,6 +28,13 @@ class CollectionToArrayTransformerTest extends TestCase
         parent::setUp();
 
         $this->transformer = new CollectionToArrayTransformer();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->transformer = null;
     }
 
     public function testTransform()
@@ -46,11 +53,10 @@ class CollectionToArrayTransformerTest extends TestCase
         $this->assertEquals(0, count($result));
     }
 
-    /**
-     * @expectedException \Symfony\Component\Form\Exception\TransformationFailedException
-     */
     public function testTransformThrowsExceptionIfNotObjectCollection()
     {
+        $this->expectException(\Symfony\Component\Form\Exception\TransformationFailedException::class);
+
         $this->transformer->transform(new DummyObject());
     }
 
@@ -83,11 +89,10 @@ class CollectionToArrayTransformerTest extends TestCase
         $this->assertEquals(0, count($result->getData()));
     }
 
-    /**
-     * @expectedException \Symfony\Component\Form\Exception\TransformationFailedException
-     */
     public function testReverseTransformThrowsExceptionIfNotArray()
     {
+        $this->expectException(\Symfony\Component\Form\Exception\TransformationFailedException::class);
+
         $this->transformer->reverseTransform(new DummyObject());
     }
 

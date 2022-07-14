@@ -29,9 +29,16 @@ class TypeGuesserTest extends TestCase
 
     private $guesser;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->guesser = new TypeGuesser();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->guesser = null;
     }
 
     public function testGuessMaxLengthWithText()

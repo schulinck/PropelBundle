@@ -11,6 +11,7 @@
 
 namespace Propel\Bundle\PropelBundle\Security\User;
 
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -99,5 +100,10 @@ class PropelUserProvider implements UserProviderInterface
     public function supportsClass($class)
     {
         return $class === $this->class;
+    }
+
+    public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        return $this->loadUserByUsername($identifier);
     }
 }

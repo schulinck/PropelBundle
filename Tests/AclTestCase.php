@@ -32,7 +32,7 @@ class AclTestCase extends TestCase
     protected $con = null;
     protected $cache = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -48,6 +48,14 @@ class AclTestCase extends TestCase
         $builder->setSchema($schema);
 
         $this->con = $builder->build($dsn = null, $user = null, $pass = null, $adapter = null, $classTargets);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->con = null;
+        $this->cache = null;
     }
 
     /**
@@ -99,6 +107,6 @@ class AclTestCase extends TestCase
 
     protected function getRoleSecurityIdentity($role = 'ROLE_USER')
     {
-        return new RoleSecurityIdentity(new Role($role));
+        return new RoleSecurityIdentity($role);
     }
 }

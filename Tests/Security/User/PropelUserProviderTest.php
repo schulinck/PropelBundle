@@ -15,13 +15,19 @@ use Propel\Generator\Util\QuickBuilder;
 use Propel\Bundle\PropelBundle\Security\User\PropelUserProvider;
 use Propel\Bundle\PropelBundle\Tests\Fixtures\Model\User;
 use Propel\Bundle\PropelBundle\Tests\TestCase;
+use Propel\Runtime\Connection\ConnectionWrapper;
 
 /**
  * @author William Durand <william.durand1@gmail.com>
  */
 class PropelUserProviderTest extends TestCase
 {
-    public function setUp()
+    /**
+     * @var ConnectionWrapper
+     */
+    private $con;
+
+    protected function setUp(): void
     {
         $schema = <<<SCHEMA
 <database name="users" defaultIdMethod="native" namespace="Propel\\Bundle\\PropelBundle\\Tests\\Fixtures\\Model">
@@ -42,6 +48,11 @@ SCHEMA;
         $classTargets = array('tablemap', 'object', 'query', /*'objectstub',*/ 'querystub');
 
         $this->con = $builder->build($dsn = null, $user = null, $pass = null, $adapter = null, $classTargets);
+    }
+
+    protected function tearDown(): void
+    {
+        $this->con = null;
     }
 
     public function testRefreshUserGetsUserByPrimaryKey()

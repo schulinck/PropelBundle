@@ -14,6 +14,9 @@ namespace Propel\Bundle\PropelBundle\Tests\Fixtures;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Connection\ConnectionInterface;
 
+/**
+ * @method array toArray(string $keyType = \Propel\Runtime\Map\TableMap::TYPE_FIELDNAME, bool $includeLazyLoadColumns = true, array $alreadyDumpedObjects = [], bool $includeForeignObjects = false)
+ */
 class TranslatableItemI18n implements ActiveRecordInterface
 {
     private $id;
@@ -134,5 +137,13 @@ class TranslatableItemI18n implements ActiveRecordInterface
     public function getValue2()
     {
         return $this->value2;
+    }
+
+    public function isPrimaryKeyNull(): bool
+    {
+    }
+
+    public function __call($name, $arguments)
+    {
     }
 }

@@ -43,7 +43,7 @@ class SchemaLocatorTest extends TestCase
      */
     private $bundleMock;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $pathStructure = [
                 'configuration' => [
@@ -66,6 +66,13 @@ class SchemaLocatorTest extends TestCase
                 __DIR__ . '/../Fixtures',
             ]
         );
+    }
+
+    protected function tearDown(): void
+    {
+        $this->kernelMock = null;
+        $this->configuration = null;
+        $this->fileLocator = null;
     }
 
     public function testLocateFromBundle()

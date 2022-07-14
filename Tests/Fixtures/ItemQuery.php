@@ -79,15 +79,15 @@ class ItemQuery
         $resellerTable->setClassName('\Foo\Reseller');
 
         // relations
-        $mainAuthorRelation = new RelationMap('MainAuthor');
+        $mainAuthorRelation = new RelationMap('MainAuthor', new TableMap(), new TableMap());
         $mainAuthorRelation->setType(RelationMap::MANY_TO_ONE);
         $mainAuthorRelation->setForeignTable($authorTable);
 
-        $authorRelation = new RelationMap('Author');
+        $authorRelation = new RelationMap('Author', new TableMap(), new TableMap());
         $authorRelation->setType(RelationMap::ONE_TO_MANY);
         $authorRelation->setForeignTable($authorTable);
 
-        $resellerRelation = new RelationMap('Reseller');
+        $resellerRelation = new RelationMap('Reseller', new TableMap(), new TableMap());
         $resellerRelation->setType(RelationMap::MANY_TO_MANY);
         $resellerRelation->setLocalTable($resellerTable);
 

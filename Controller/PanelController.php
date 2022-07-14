@@ -11,18 +11,24 @@
 namespace Propel\Bundle\PropelBundle\Controller;
 
 use Propel\Runtime\Propel;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Profiler\Profiler;
 
 /**
  * PanelController is designed to display information in the Propel Panel.
  *
  * @author William DURAND <william.durand1@gmail.com>
  */
-class PanelController extends Controller
+class PanelController extends AbstractController
 {
+    private Profiler $profiler;
+
+    public function __construct(Profiler $profiler)
+    {
+        $this->profiler = $profiler;
+    }
+
     /**
      * This method renders the global Propel configuration.
      */
@@ -49,10 +55,9 @@ class PanelController extends Controller
      */
     public function explainAction($token, $connection, $query)
     {
-        $profiler = $this->get('profiler');
-        $profiler->disable();
+        $this->profiler->disable();
 
-        $profile = $profiler->loadProfile($token);
+        $profile = $this->profiler->loadProfile($token);
         $queries = $profile->getCollector('propel')->getQueries();
 
         if (!isset($queries[$query])) {

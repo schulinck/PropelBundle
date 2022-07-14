@@ -10,7 +10,6 @@
 
 namespace Propel\Bundle\PropelBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +22,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 /**
  * @author Kévin Gomez <contact@kevingomez.fr>
  */
-abstract class AbstractCommand extends ContainerAwareCommand
+abstract class AbstractCommand extends Command
 {
     /**
      * @var string
@@ -45,13 +44,12 @@ abstract class AbstractCommand extends ContainerAwareCommand
      */
     protected $output;
 
-    use FormattingHelpers;
-
     /**
      * {@inheritdoc}
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        /** @var KernelInterface $kernel */
         $kernel = $this->getApplication()->getKernel();
 
         $this->input = $input;
@@ -59,10 +57,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
         $this->cacheDir = $kernel->getCacheDir().'/propel';
 
         if ($input->hasArgument('bundle') && '@' === substr($input->getArgument('bundle'), 0, 1)) {
-            $this->bundle = $this
-                ->getContainer()
-                ->get('kernel')
-                ->getBundle(substr($input->getArgument('bundle'), 1));
+            $this->bundle = $kernel->getBundle(substr($input->getArgument('bundle'), 1));
         }
     }
 
